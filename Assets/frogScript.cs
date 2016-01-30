@@ -15,19 +15,25 @@ public class frogScript : MonoBehaviour {
 	private float height;
 	private float startTime;
 	private float journeyLength;
+	private SphereCollider radius;
+	private int jumpNum;
+	private int findCount;
 
 	void Start(){
+		findCount = 0;
+		jumpNum = 5;
 		sprite = GetComponentInChildren<SpriteRenderer> ();
 		anim = GetComponentInChildren<Animator> ();
 		pos = transform.position;
 		dist = 3;
 		speed = 10f;
 		height = 0f;
+		origPlace = transform.position;
+		goPlace = transform.position;
+		radius = GetComponent<SphereCollider> ();
 	}
 
 	void Update(){
-
-
 		if(transform.position != goPlace){
 			if (transform.position.x > goPlace.x) {
 				sprite.flipX = false;
@@ -48,6 +54,7 @@ public class frogScript : MonoBehaviour {
 	void OnTriggerEnter(Collider hitInfo){
 		if(hitInfo.name == "player"){
 			randPlace = new Vector3 (Random.Range(pos.x - dist, pos.x + dist), 0, Random.Range(pos.z - dist, pos.z + dist));
+			print ("hi");
 			Jump ();
 		}
 	}
@@ -55,11 +62,19 @@ public class frogScript : MonoBehaviour {
 	void Jump(){
 		while (!canJump (randPlace)) {
 			randPlace = new Vector3 (Random.Range(pos.x - dist, pos.x + dist), 0, Random.Range(pos.z - dist, pos.z + dist));
+			findCount++;
+			if(findCount > 100){
+				break;
+			}
 		}
+		print (findCount);
+		findCount = 0;
 		origPlace = transform.position;
 		goPlace = randPlace;
 		startTime = Time.time;
 		journeyLength = Vector3.Distance(origPlace, goPlace);
+		jumpNum--;
+		radius.radius = jumpNum * 0.2f;
 
 	}
 

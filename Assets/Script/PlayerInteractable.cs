@@ -5,6 +5,8 @@ public class PlayerInteractable : MonoBehaviour {
 
 	private PlayerInteractBox interactBox;
 
+	public GameObject frog;
+
 	// Use this for initialization
 	void Start () {
 		interactBox = GameObject.FindGameObjectWithTag ("PlayerInteractBox").GetComponent<PlayerInteractBox>();
@@ -12,12 +14,14 @@ public class PlayerInteractable : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetButtonDown ("Fire1") && interactBox.interactObject != null) {
+		if (Input.GetKeyDown (KeyCode.E) && interactBox.interactObject != null) {
 			print ("player interact with: " + interactBox.interactObject.tag);
-			if (interactBox.interactObject.tag == "Bone") {
+			if (interactBox.interactObject.name == "Bone") {
 				// do something w/ bone
-			} else if (interactBox.interactObject.tag == "Tree") {
+			} else if (interactBox.interactObject.name == "Tree") {
 				// do something w/ tree
+			}else if(interactBox.interactObject.name == "Pond"){
+			Instantiate (frog, transform.position, Quaternion.identity);
 			}
 		}
 	}

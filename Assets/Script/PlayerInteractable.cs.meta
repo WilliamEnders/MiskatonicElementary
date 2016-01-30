@@ -1,10 +1,11 @@
 fileFormatVersion: 2
 guid: eba69b297c67b4e62bb80e6edbdc97c1
-timeCreated: 1454185551
+timeCreated: 1454190457
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - frog: {fileID: 107538, guid: 522b52270100240669f46f676aaf7dc3, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
