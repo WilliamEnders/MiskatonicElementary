@@ -6,21 +6,40 @@ public class frogScript : MonoBehaviour {
 	private Vector3 pos;
 	private Vector3 randPlace;
 	private float dist;
+	private Vector3 origPlace;
 	private Vector3 goPlace;
 	private Animator anim;
+	private float speed;
+	private SpriteRenderer sprite;
+
+	private float height;
+	private float startTime;
+	private float journeyLength;
 
 	void Start(){
+		sprite = GetComponentInChildren<SpriteRenderer> ();
 		anim = GetComponentInChildren<Animator> ();
 		pos = transform.position;
 		dist = 5;
+		speed = 10f;
+		height = 1f;
 	}
 
 	void Update(){
-		if (transform.position != goPlace) {
-			transform.position = Vector3.Lerp (transform.position, goPlace, 0.1f);
+
+
+		if(transform.position != goPlace){
+			if (transform.position.x > goPlace.x) {
+				sprite.flipX = false;
+			} else {
+				sprite.flipX = true;
+			}
 			anim.Play ("FrogJump");
+		float distCovered = (Time.time - startTime) * speed;
+		float fracJourney = distCovered / journeyLength;
+			height = 1 * fracJourney;
+			transform.position = new Vector3 (Mathf.Lerp(origPlace.x, goPlace.x, fracJourney),height,Mathf.Lerp(origPlace.z, goPlace.z, fracJourney));
 		} else {
-			//print ("same");
 			anim.Play ("FrogStand");
 		}
 	}
@@ -36,7 +55,10 @@ public class frogScript : MonoBehaviour {
 		while (!canJump (randPlace)) {
 			randPlace = new Vector3 (Random.Range(pos.x - dist, pos.x + dist), 0, Random.Range(pos.z - dist, pos.z + dist));
 		}
+		origPlace = transform.position;
 		goPlace = randPlace;
+		startTime = Time.time;
+		journeyLength = Vector3.Distance(origPlace, goPlace);
 
 	}
 
