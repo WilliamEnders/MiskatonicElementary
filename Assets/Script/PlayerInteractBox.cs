@@ -4,10 +4,11 @@ using System.Collections;
 public class PlayerInteractBox : MonoBehaviour {
 
 	private Rigidbody rb;
-	public GameObject interactObject;
+	public GameObject interactObject = null;
 
 	// Use this for initialization
 	void Start () {
+		print ("new player interact box");
 		GameObject player = GameObject.FindGameObjectWithTag ("Player");
 		rb = player.GetComponent<Rigidbody> ();
 	}
@@ -24,12 +25,12 @@ public class PlayerInteractBox : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other) {
-		print ("Can interact with object: " + other.gameObject.tag);
+		print ("Can interact with object: " + other.gameObject.name);
 		interactObject = other.gameObject;
 	}
 
 	void OnTriggerExit(Collider other) {
-		print ("Can no longer interact with object: " + other.gameObject.tag);
+		print ("Can no longer interact with object: " + other.gameObject.name);
 		interactObject = null;
 	}
 }
