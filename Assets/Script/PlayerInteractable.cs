@@ -11,11 +11,11 @@ public class PlayerInteractable : MonoBehaviour {
 	void Start () {
 		interactBox = GameObject.FindGameObjectWithTag ("PlayerInteractBox").GetComponent<PlayerInteractBox>();
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.E) && interactBox.interactObject != null) {
-			print ("player interact with: " + interactBox.interactObject.tag);
+		if (Input.GetKeyDown (KeyCode.E) && interactBox.interactObject.name == name) {
+			print ("player interact with: " + interactBox.interactObject.name);
 			if (interactBox.interactObject.name == "Bone") {
 				// do something w/ bone
 			} else if (interactBox.interactObject.name == "Tree") {
