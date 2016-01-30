@@ -20,9 +20,9 @@ public class frogScript : MonoBehaviour {
 		sprite = GetComponentInChildren<SpriteRenderer> ();
 		anim = GetComponentInChildren<Animator> ();
 		pos = transform.position;
-		dist = 5;
+		dist = 3;
 		speed = 10f;
-		height = 1f;
+		height = 0f;
 	}
 
 	void Update(){
@@ -37,8 +37,9 @@ public class frogScript : MonoBehaviour {
 			anim.Play ("FrogJump");
 		float distCovered = (Time.time - startTime) * speed;
 		float fracJourney = distCovered / journeyLength;
-			height = 1 * fracJourney;
+			height = Mathf.Clamp( (-Mathf.Pow(((fracJourney * 2) - 1) , 2) + 1) , 0, 1);
 			transform.position = new Vector3 (Mathf.Lerp(origPlace.x, goPlace.x, fracJourney),height,Mathf.Lerp(origPlace.z, goPlace.z, fracJourney));
+
 		} else {
 			anim.Play ("FrogStand");
 		}
