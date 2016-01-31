@@ -10,6 +10,7 @@ public class PlayerInteractable : MonoBehaviour {
 	public float clicks = 6;
 	private elementArray circle;
 	private Rigidbody player;
+	public bool active = true;
 
 	// Use this for initialization
 	void Start () {
@@ -50,9 +51,11 @@ public class PlayerInteractable : MonoBehaviour {
 					circle.AddElement (2);
 					DestroyInteraction ();
 				}
-			} else if (interactBox.interactObject.name == "BirdTree") {
+			} else if (interactBox.interactObject.name.Contains("BirdTree")) {
+				active = false;
 				BirdAnimator birdAnim = interactBox.interactObject.GetComponentInChildren<BirdAnimator> ();
 				birdAnim.Fly ();
+				interactBox.StopInteraction ();
 			} else if (interactBox.interactObject.name == "Rose") {
 				circle.AddElement (0);
 				DestroyInteraction ();
