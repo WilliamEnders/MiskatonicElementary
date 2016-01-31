@@ -17,7 +17,7 @@ public class PlayerInteractable : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.E) && interactBox.interactObject != null && interactBox.interactObject.name == name) {
+		if ((Input.GetButtonDown("Fire1")) && interactBox.interactObject != null && interactBox.interactObject.name == name) {
 			print ("player interact with: " + interactBox.interactObject.name);
 			if (interactBox.interactObject.name == "Bone") {
 				// do something w/ bone
@@ -37,14 +37,17 @@ public class PlayerInteractable : MonoBehaviour {
 					circle.itemNum++;
 					Destroy (interactBox.interactObject);
 				}
-			} else if (interactBox.interactObject.name == "SeveredHand") {
-				print ("hand");
-				clicks = clicks - 1;
-				print (clicks);
-				if (clicks <= 0) {
-					print ("done");
+			} else if (interactBox.interactObject.tag == "Feather"){
+				circle.elements [circle.itemNum] = 4;
+				circle.itemNum++;
+				Destroy (interactBox.interactObject);
+			}  else if (interactBox.interactObject.name == "SeveredHand") {
+				if (clicks > 0) {
+					clicks = clicks - 1;
+				} else {
 					circle.elements [circle.itemNum] = 2;
 					circle.itemNum++;
+					Destroy (interactBox.interactObject);
 				}
 			} else if (interactBox.interactObject.name == "BirdTree") {
 				BirdAnimator birdAnim = interactBox.interactObject.GetComponentInChildren<BirdAnimator> ();
