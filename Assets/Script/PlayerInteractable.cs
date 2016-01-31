@@ -46,6 +46,7 @@ public class PlayerInteractable : MonoBehaviour {
 				circle.elements [circle.itemNum] = 4;
 				circle.itemNum++;
 				Destroy (interactBox.interactObject);
+				interactBox.StopInteraction();
 			}  else if (interactBox.interactObject.name == "SeveredHand") {
 				if (clicks > 0) {
 					clicks = clicks - 1;
@@ -53,6 +54,7 @@ public class PlayerInteractable : MonoBehaviour {
 					circle.elements [circle.itemNum] = 2;
 					circle.itemNum++;
 					Destroy (interactBox.interactObject);
+					interactBox.StopInteraction();
 				}
 			} else if (interactBox.interactObject.name == "BirdTree") {
 				BirdAnimator birdAnim = interactBox.interactObject.GetComponentInChildren<BirdAnimator> ();
