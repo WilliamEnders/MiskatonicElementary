@@ -40,5 +40,8 @@ public class BirdAnimator : MonoBehaviour {
 		startPosition = transform.position;
 		endPosition = new Vector3 (transform.position.x - 10, transform.position.y + 10, transform.position.z + 5);
 		startTime = Time.time;
+		if (GetComponent<AudioSource> ().isPlaying == false) {
+			GetComponent<AudioSource> ().Play ();
+		}
 	}
 }

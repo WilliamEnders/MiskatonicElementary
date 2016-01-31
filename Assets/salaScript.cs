@@ -37,11 +37,10 @@ public class salaScript: MonoBehaviour {
 				sprite.flipX = true;
 			}
 			anim.Play ("SalaWalk");
-			/*
+
 			if (GetComponent<AudioSource> ().isPlaying == false) {
 				GetComponent<AudioSource> ().Play ();
 			}
-			*/
 		float distCovered = (Time.time - startTime) * speed;
 		float fracJourney = distCovered / journeyLength;
 			transform.position = new Vector3 (Mathf.Lerp(origPlace.x, goPlace.x, fracJourney),0,Mathf.Lerp(origPlace.z, goPlace.z, fracJourney));

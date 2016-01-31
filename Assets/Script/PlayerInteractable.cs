@@ -28,6 +28,9 @@ public class PlayerInteractable : MonoBehaviour {
 				// do something w/ tree
 			} else if (interactBox.interactObject.name == "Pond") {
 				Instantiate (frog, transform.position, Quaternion.identity);
+				if (interactBox.interactObject.GetComponent<AudioSource>().isPlaying == false) {
+					interactBox.interactObject.GetComponent<AudioSource>().Play ();
+				}
 			}else if (interactBox.interactObject.name == "Rock") {
 				Instantiate (salamander, transform.position, Quaternion.identity);
 				Destroy (interactBox.interactObject);
