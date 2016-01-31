@@ -25,4 +25,8 @@ public class elementArray : MonoBehaviour {
 		itemNum++;
 		CheckForCompletion ();
 	}
+
+	public bool IsCompleted() {
+		return itemNum >= 4;
+	}
 }
