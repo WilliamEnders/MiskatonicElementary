@@ -32,27 +32,23 @@ public class PlayerInteractable : MonoBehaviour {
 				Destroy (interactBox.interactObject);
 			} else if (interactBox.interactObject.tag == "Frog") {
 				if (interactBox.interactObject.GetComponent<frogScript> ().jumpNum == 0) {
-					circle.elements [circle.itemNum] = 3;
-					circle.itemNum++;
+					circle.AddElement (3);
 					Destroy (interactBox.interactObject);
 				}
 			} else if (interactBox.interactObject.tag == "Salamander") {
 				if (interactBox.interactObject.GetComponent<salaScript> ().jumpNum == 0) {
-					circle.elements [circle.itemNum] = 1;
-					circle.itemNum++;
+					circle.AddElement (1);
 					Destroy (interactBox.interactObject);
 				}
 			} else if (interactBox.interactObject.tag == "Feather") {
-				circle.elements [circle.itemNum] = 4;
-				circle.itemNum++;
+				circle.AddElement (4);
 				Destroy (interactBox.interactObject);
 				interactBox.StopInteraction ();
 			} else if (interactBox.interactObject.name == "SeveredHand") {
 				if (clicks > 0) {
 					clicks = clicks - 1;
 				} else {
-					circle.elements [circle.itemNum] = 2;
-					circle.itemNum++;
+					circle.AddElement (2);
 					Destroy (interactBox.interactObject);
 					interactBox.StopInteraction ();
 				}
@@ -60,8 +56,7 @@ public class PlayerInteractable : MonoBehaviour {
 				BirdAnimator birdAnim = interactBox.interactObject.GetComponentInChildren<BirdAnimator> ();
 				birdAnim.Fly ();
 			} else if (interactBox.interactObject.name == "Rose") {
-				circle.elements [circle.itemNum] = 0;
-				circle.itemNum++;
+				circle.AddElement (0);
 				Destroy (interactBox.interactObject);
 				interactBox.StopInteraction ();
 			}
