@@ -24,39 +24,46 @@ public class PlayerInteractable : MonoBehaviour {
 			print ("player interact with: " + interactBox.interactObject.name);
 			if (interactBox.interactObject.name == "Pond") {
 				Instantiate (frog, transform.position, Quaternion.identity);
-				if (interactBox.interactObject.GetComponent<AudioSource>().isPlaying == false) {
-					interactBox.interactObject.GetComponent<AudioSource>().Play ();
+				if (interactBox.interactObject.GetComponent<AudioSource> ().isPlaying == false) {
+					interactBox.interactObject.GetComponent<AudioSource> ().Play ();
 				}
-			}else if (interactBox.interactObject.tag == "Rock") {
+			} else if (interactBox.interactObject.tag == "Rock") {
 				Instantiate (salamander, transform.position, Quaternion.identity);
 				Destroy (interactBox.interactObject);
-			}else if (interactBox.interactObject.tag == "Frog"){
-				if(interactBox.interactObject.GetComponent<frogScript>().jumpNum <= 0){
-				circle.elements [circle.itemNum] = 3;
-				circle.itemNum++;
-				Destroy (interactBox.interactObject);
+			} else if (interactBox.interactObject.tag == "Frog") {
+				if (interactBox.interactObject.GetComponent<frogScript> ().jumpNum == 0) {
+					circle.elements [circle.itemNum] = 3;
+					circle.itemNum++;
+					Destroy (interactBox.interactObject);
 				}
-			} else if (interactBox.interactObject.tag == "Salamander"){
-				if (interactBox.interactObject.GetComponent<salaScript> ().jumpNum <= 0) {
+			} else if (interactBox.interactObject.tag == "Salamander") {
+				if (interactBox.interactObject.GetComponent<salaScript> ().jumpNum == 0) {
 					circle.elements [circle.itemNum] = 1;
 					circle.itemNum++;
 					Destroy (interactBox.interactObject);
 				}
-			} else if (interactBox.interactObject.tag == "Feather"){
+			} else if (interactBox.interactObject.tag == "Feather") {
 				circle.elements [circle.itemNum] = 4;
 				circle.itemNum++;
 				Destroy (interactBox.interactObject);
-			}  else if (interactBox.interactObject.name == "SeveredHand") {
+				interactBox.StopInteraction ();
+			} else if (interactBox.interactObject.name == "SeveredHand") {
 				if (clicks > 0) {
 					clicks = clicks - 1;
 				} else {
 					circle.elements [circle.itemNum] = 2;
 					circle.itemNum++;
 					Destroy (interactBox.interactObject);
+					interactBox.StopInteraction ();
 				}
 			} else if (interactBox.interactObject.name == "BirdTree") {
 				BirdAnimator birdAnim = interactBox.interactObject.GetComponentInChildren<BirdAnimator> ();
 				birdAnim.Fly ();
+			} else if (interactBox.interactObject.name == "Rose") {
+				circle.elements [circle.itemNum] = 0;
+				circle.itemNum++;
+				Destroy (interactBox.interactObject);
+				interactBox.StopInteraction ();
 			}
 		}
 	}
