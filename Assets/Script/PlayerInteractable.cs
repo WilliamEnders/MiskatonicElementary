@@ -27,7 +27,7 @@ public class PlayerInteractable : MonoBehaviour {
 				if (interactBox.interactObject.GetComponent<AudioSource>().isPlaying == false) {
 					interactBox.interactObject.GetComponent<AudioSource>().Play ();
 				}
-			}else if (interactBox.interactObject.name == "Rock") {
+			}else if (interactBox.interactObject.tag == "Rock") {
 				Instantiate (salamander, transform.position, Quaternion.identity);
 				Destroy (interactBox.interactObject);
 			}else if (interactBox.interactObject.tag == "Frog"){
