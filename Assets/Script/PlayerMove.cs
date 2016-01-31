@@ -21,14 +21,23 @@ public class PlayerMove : MonoBehaviour {
 		float moveHorizontal = Input.GetAxis ("Horizontal");
 		float moveVertical = Input.GetAxis ("Vertical");
 
+
+		if (rb.velocity != Vector3.zero) {
+			if (GetComponent<AudioSource> ().isPlaying == false) {
+				GetComponent<AudioSource> ().Play ();
+			}
+		} else if (rb.velocity == Vector3.zero) {
+			GetComponent<AudioSource> ().Stop ();
+		}
+
 		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
 		rb.velocity = movement * speed;
 
 		if(rb.velocity.x > 0){
-			ren.flipX = false;
+			ren.flipX = true;
 		}
 		if(rb.velocity.x < 0){
-			ren.flipX = true;
+			ren.flipX = false;
 		}
 
 		if (rb.velocity == Vector3.zero) {
