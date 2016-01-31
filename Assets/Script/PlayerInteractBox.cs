@@ -27,6 +27,7 @@ public class PlayerInteractBox : MonoBehaviour {
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject.GetComponent<PlayerInteractable> () != null) {
 			print ("Can interact with object: " + other.gameObject.name);
+			GameObject.Find("Press E").GetComponent<SpriteRenderer> ().enabled = true;
 			interactObject = other.gameObject;
 		}
 	}
@@ -34,7 +35,13 @@ public class PlayerInteractBox : MonoBehaviour {
 	void OnTriggerExit(Collider other) {
 		if (other.gameObject.GetComponent<PlayerInteractable> () != null) {
 			print ("Can no longer interact with object: " + other.gameObject.name);
-			interactObject = null;
+			StopInteraction ();
 		}
 	}
+
+	public void StopInteraction () {
+		GameObject.Find ("Press E").GetComponent<SpriteRenderer> ().enabled = false;
+		interactObject = null;
+	}
+		
 }
