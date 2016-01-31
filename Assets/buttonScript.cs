@@ -14,7 +14,7 @@ public class buttonScript : MonoBehaviour {
 	}
 
 	public void StartGame(){
-		Application.LoadLevel ("Scene3");
+		Application.LoadLevel ("IntroScreen");
 	}
 
 	public void Credits(){
