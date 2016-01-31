@@ -1,5 +1,24 @@
 'use strict';
 
+/** todo: Refactor hardcoded data. */
+var data = {
+    elements: {
+        strengths: {
+            water: ['fire', 'organic'],
+            fire: ['earth', 'organic'],
+            earth: ['water', 'air'],
+            organic: ['air', 'earth'],
+            air: ['water', 'fire']
+        }
+    },
+    player: {
+        elements: ['water', 'fire', 'water', 'water', 'water']
+    },
+    enemy: {
+        elements: ['fire', 'water', 'water', 'fire', 'water']
+    }
+};
+
 var Phaser = window.Phaser;
 var game = new Phaser.Game(800, 600, Phaser.AUTO);
 
