@@ -53,7 +53,10 @@ public class Populate : EditorWindow {
 		currentNum = 0;
 		tryNum = 0;
 		container = new GameObject ("Container");
-		radius = prefab.GetComponent<SphereCollider> ().radius;
+
+		float x = prefab.GetComponent<Collider> ().bounds.size.x;
+		float z = prefab.GetComponent<Collider> ().bounds.size.z;
+		radius = x > z ? x : z;
 
 		while(currentNum < totalNum){
 			tryNum++;
