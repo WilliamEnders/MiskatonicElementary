@@ -17,7 +17,7 @@ public class Tarp : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject.tag == "Player" && circle.IsCompleted()) {
-//			Application.OpenURL ("http://www.google.com");
+			Application.OpenURL ("http://williamenders.github.io/MiskatonicElementary/");
 		}
 	}
 }
