@@ -6,13 +6,11 @@ public class PlayerMove : MonoBehaviour {
 	private Rigidbody rb;
 	public float speed;
 	private SpriteRenderer ren;
-	public bool chop;
 	private Animator anim;
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody> ();
 		ren = GetComponentInChildren<SpriteRenderer> ();
-		chop = false;
 		anim = GetComponentInChildren<Animator> ();
 	}
 	
@@ -29,9 +27,10 @@ public class PlayerMove : MonoBehaviour {
 		} else if (rb.velocity == Vector3.zero) {
 			GetComponent<AudioSource> ().Stop ();
 		}
-
-		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
-		rb.velocity = movement * speed;
+		if (!anim.GetCurrentAnimatorStateInfo (0).IsName ("crouch")) {
+			Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
+			rb.velocity = movement * speed;
+		}
 
 		if(rb.velocity.x > 0){
 			ren.flipX = true;
@@ -41,9 +40,11 @@ public class PlayerMove : MonoBehaviour {
 		}
 
 		if (rb.velocity == Vector3.zero) {
-			anim.Play ("stand");
 			if (Input.GetKeyDown (KeyCode.E)) {
-				chop = true;
+				anim.Play ("crouch");
+			}
+			if(!anim.GetCurrentAnimatorStateInfo(0).IsName("crouch")){
+			anim.Play ("stand");
 			}
 		} else {
 			anim.Play ("walk");
