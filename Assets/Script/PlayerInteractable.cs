@@ -21,7 +21,7 @@ public class PlayerInteractable : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if ((Input.GetButtonDown("Fire1")) && interactBox.interactObject != null && interactBox.interactObject.name == name && player.velocity == Vector3.zero) {
-			print ("player interact with: " + interactBox.interactObject.name);
+			//print ("player interact with: " + interactBox.interactObject.name);
 			if (interactBox.interactObject.name == "Bone") {
 				// do something w/ bone
 			} else if (interactBox.interactObject.name == "Tree") {
