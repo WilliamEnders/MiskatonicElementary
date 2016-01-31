@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerMove : MonoBehaviour {
 
 	private Rigidbody rb;
-	public int speed;
+	public float speed;
 	private SpriteRenderer ren;
 	public bool chop;
 	private Animator anim;

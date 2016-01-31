@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class PlayerInteractable : MonoBehaviour {
@@ -6,6 +6,7 @@ public class PlayerInteractable : MonoBehaviour {
 	private PlayerInteractBox interactBox;
 
 	public GameObject frog;
+	public float clicks = 6;
 
 	// Use this for initialization
 	void Start () {
@@ -20,8 +21,15 @@ public class PlayerInteractable : MonoBehaviour {
 				// do something w/ bone
 			} else if (interactBox.interactObject.name == "Tree") {
 				// do something w/ tree
-			} else if (interactBox.interactObject.name == "Pond") {
-				Instantiate (frog, transform.position, Quaternion.identity);
+			}else if(interactBox.interactObject.name == "Pond"){
+			Instantiate (frog, transform.position, Quaternion.identity);
+			} else if (interactBox.interactObject.name == "SeveredHand") {
+				print ("hand");
+				clicks = clicks - 1;
+				print (clicks);
+				if (clicks <= 0) {
+					print ("done");
+				}
 			} else if (interactBox.interactObject.name == "BirdTree") {
 				BirdAnimator birdAnim = interactBox.interactObject.GetComponentInChildren<BirdAnimator> ();
 				birdAnim.Fly ();
