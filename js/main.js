@@ -19,10 +19,12 @@ var data = {
     }
 };
 
+/** Initialize game. */
 var Phaser = window.Phaser;
 var game = new Phaser.Game(800, 600, Phaser.AUTO);
 
 var GameState = {
+    /** Preload game. */
     preload: function() {
         this.load.image('background', 'assets/background.png');
         this.load.image('battle_box', 'assets/GUI-circle.png');
@@ -46,6 +48,7 @@ var GameState = {
         };
     },
 
+    /** Create game. */
     create: function() {
         // todo: remove after done with debugging
         window.debug = this;
@@ -87,8 +90,191 @@ var GameState = {
         };
     },
 
-    update: function() {}
+    /** The player and enemy slots. */
+    _slots: {
+        player: [],
+        enemy: [],
+        mystery: []
+    },
+
+    _battle: {
+        isReady: true,
+        score: {
+            player: 0,
+            enemy: 0
+        },
+        currentElement: {
+            player: null,
+            enemy: null
+        }
+    },
+
+    /**
+     * Create the side for each player. 
+     * Creates 5 slots
+     * Put elements in each slot
+     * Create a Player
+     * @param {String} side - The side: player/enemy.
+     */
+    _createSide: function(side) {
+        var slot, i, x, y;
+        var slotSpace = 50; // space between slots
+        
+        // randomize enemy elements
+        if (side === 'enemy'){
+            randomize(data.enemy.elements);
+        }
+
+        for (i = 0; i < 5; i++) {
+            var element;
+            if (side === 'enemy') {
+                x = this.game.width - i * slotSpace - 40;
+                y = 30;
+                slot = this.game.add.sprite(x, y, 'slot');
+                element = this.game.add.sprite(
+                    slot.x + slot.width / 2,
+                    slot.y + slot.height / 2,
+                    data.enemy.elements[i]
+                );
+                // mystery slot
+                this._slots.mystery.push(this.game.add.sprite(x, y, 'mystery_slot'));
+            } else if (side === 'player') {
+                x = i * slotSpace;
+                y = 30;
+                slot = this.game.add.sprite(x, y, 'slot');
+                element = this.game.add.sprite(
+                    slot.x + slot.width / 2,
+                    slot.y + slot.height / 2,
+                    data.player.elements[i]
+                );
+            }
+            console.log(data.player.elements[i]);
+            element.scale.setTo(0.10);
+            // center sprite anchor point
+            element.anchor.setTo(0.5);
+            element.type = data[side].elements[i];
+            this._slots[side].push(element);
+        }
+
+        // bind events
+        this._slots.player.forEach(function(element, index){
+            element.inputEnabled = true;
+            element.events.onInputDown.add(function(){
+                if (this._battle.isReady) {
+                    this._selectPlayerElement(element, index);
+                    this._selectEnemyElement(index);
+                }
+            }, this);
+        }, this);
+
+        // create the player
+        var textStyle = {
+            font: "14px Arial",
+            fill: "black",
+            align: "center"
+        };
+
+        if (side === 'enemy') {
+            this.game.add.sprite(this.game.width - 127, 200, 'enemy');
+        } else if (side === 'player') {
+            this.game.add.sprite(0, 200, 'player');
+        }
+    },
+   
+    /**
+     * Selects player inventory element.
+     * 
+     * @param {Phaser.Sprite} element - The inventory element.
+     */
+    _selectPlayerElement: function(element) {
+        this._battle.currentElement.player = element;
+        this._battle.isReady = false;
+        this.game.add.tween(element).to(
+            { y: this.battlebox.y, x: this.battlebox.x - 50 },
+            1000,
+            Phaser.Easing.Quadratic.InOut,
+            true
+        );
+    },
+        
+    /**
+     * Selects enemy inventory element.
+     */
+    _selectEnemyElement: function() {
+        var self = this;
+        // invert selection order
+        var element = this._slots.enemy[this._slots.mystery.length - 1];
+        this._battle.currentElement.enemy = element;
+        var tween = this.game.add.tween(element).to(
+            { y: this.battlebox.y, x: this.battlebox.x + 50 },
+            1000,
+            Phaser.Easing.Quadratic.InOut,
+            true
+        );
+
+        // invert selection order
+        this._slots.mystery[this._slots.mystery.length - 1].kill();
+        tween.onComplete.add(function() {
+            setTimeout(function() {
+                self._setScore();
+                self._clearBoard();
+            }, 500);
+        });
+        this._slots.mystery.pop();
+        this._slots.enemy.pop();
+    },
+ 
+    /**
+     * The comparison between player and enemy elements.
+     * 
+     * @return {String}
+     */
+    _elementComparison: function() {
+        var playerElement = this._battle.currentElement.player;
+        var enemyElement = this._battle.currentElement.enemy;
+    
+        console.log(playerElement.type);
+        console.log(enemyElement.type);
+        // draw
+        if (playerElement.type === enemyElement.type) {
+            return 'draw';
+
+        // strengths found
+        } else if (data.elements.strengths[playerElement.type].indexOf(enemyElement.type) !== -1) {
+            return 'win';
+
+        // strengths not found
+        } else if (data.elements.strengths[playerElement.type].indexOf(enemyElement.type) === -1) {
+            return 'lose';
+        }
+        
+    },
+ 
+    /**
+     * Sets the the score for the battle.
+     */
+    _setScore: function() {
+        var outcome = this._elementComparison();
+        console.log(outcome);
+        if(outcome === 'win') {
+            this._battle.score.player +=1;
+            this._score.player.text = this._battle.score.player;
+        } else if( outcome === 'lose') {
+            this._battle.score.enemy +=1;
+            this._score.enemy.text = this._battle.score.enemy;
+        }
+    },
+
+    /**
+     * Clears the board.
+     */
+    _clearBoard: function() {
+        this._battle.currentElement.player.kill();
+        this._battle.currentElement.enemy.kill();
+        this._battle.isReady = true;
+    }
 };
 
+/** Start game. */
 game.state.add('GameState', GameState);
 game.state.start('GameState');
