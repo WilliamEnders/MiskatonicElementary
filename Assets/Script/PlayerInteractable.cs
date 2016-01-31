@@ -31,13 +31,13 @@ public class PlayerInteractable : MonoBehaviour {
 				Instantiate (salamander, transform.position, Quaternion.identity);
 				Destroy (interactBox.interactObject);
 			}else if (interactBox.interactObject.tag == "Frog"){
-				if(interactBox.interactObject.GetComponent<frogScript>().jumpNum == 0){
+				if(interactBox.interactObject.GetComponent<frogScript>().jumpNum <= 0){
 				circle.elements [circle.itemNum] = 3;
 				circle.itemNum++;
 				Destroy (interactBox.interactObject);
 				}
 			} else if (interactBox.interactObject.tag == "Salamander"){
-				if (interactBox.interactObject.GetComponent<salaScript> ().jumpNum == 0) {
+				if (interactBox.interactObject.GetComponent<salaScript> ().jumpNum <= 0) {
 					circle.elements [circle.itemNum] = 1;
 					circle.itemNum++;
 					Destroy (interactBox.interactObject);

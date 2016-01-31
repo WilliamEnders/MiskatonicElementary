@@ -4,21 +4,22 @@ using UnityEngine.UI;
 
 public class helpMenu : MonoBehaviour {
 
-	private Image img;
+	private GameObject img;
 
 	// Use this for initialization
 	void Start () {
-		img = GetComponent<Image> ();	
-		img.enabled = false;
+		img = GameObject.Find ("Help");
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.Q)){
-			if (img.enabled == false) {
-				img.enabled = true;
+			if (!img.activeSelf) {
+				img.SetActive (true);
+				Time.timeScale = 0;
 			} else {
-				img.enabled = false;
+				img.SetActive (false);
+				Time.timeScale = 1;
 			}
 		}
 	}
