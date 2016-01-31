@@ -34,8 +34,8 @@ window.BattleState = {
         //this.load.image('mystery_slot', 'assets/mystery_slot.png');
         this.load.image('mystery_slot', 'assets/clear.png');
 
-        this.load.image('player', 'assets/player.png');
-        this.load.image('enemy', 'assets/enemy.png');
+        this.load.image('player', 'assets/mainguy.png');
+        this.load.image('enemy', 'assets/chad.png');
 
         this._tokens = {
             earth: this.load.image('earth', 'assets/tokens/token_earth.png'),
@@ -44,14 +44,27 @@ window.BattleState = {
             water: this.load.image('water', 'assets/tokens/token_water.png'),
             fire: this.load.image('fire', 'assets/tokens/token_fire.png')
         };
+
+        // preload outcome assets here to prevent blue flash
+        // todo: refactor and do this correctly
+        this.load.image('background', 'assets/background.png');
+        this.load.image('btn_tryagain', 'assets/btn_tryagain.png');
+        this.load.image('btn_playagain', 'assets/btn_playagain.png');
+        this.load.image('victory_text', 'assets/txt_victory.png');
+        
+        // load monster placeholder
+        this.load.image('monster', 'assets/WoolColossus.png');
+        
+        // music
+        this.load.audio('music', ['assets/audio/pumped_up.mp3']);
     },
 
     /** Create game. */
     create: function() {
         // todo: remove after done with debugging
-        window.debug = this;
+        window.debugGame = this;
 
-        this.input.maxPointers = 1;
+        //this.input.maxPointers = 1;
         this.stage.disableVisibilityChange = false;
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.scale.minWidth = 800;
@@ -59,7 +72,7 @@ window.BattleState = {
         this.scale.pageAlignHorizontally = true;
         this.scale.pageAlignVertically = true;
         this.stage.forcePortrait = true;
-        this.input.addPointer();
+        //this.input.addPointer();
         this.stage.backgroundColor = '#171642';
 
         // game background
@@ -83,9 +96,23 @@ window.BattleState = {
         this._createSide('enemy');
 
         this._score = {
-            player: this.game.add.text(60, 100, this._battle.score.player, { fontSize: '20px', fill: '#000' }),
-            enemy: this.game.add.text(this.game.width - 60, 100, this._battle.score.enemy, { fontSize: '20px', fill: '#000' })
+            player: this.game.add.text(
+                60, 100, this._battle.score.player,
+                { fontSize: '20px', fill: '#000' }
+            ),
+            enemy: this.game.add.text(
+                this.game.width - 60, 100, this._battle.score.enemy,
+                { fontSize: '20px', fill: '#000' }
+            )
         };
+
+        var music = this.game.add.audio('music');
+        music.play();
+    },
+
+    _sprites: {
+        player: null,
+        enemy: null
     },
 
     /** The player and enemy slots. */
@@ -109,13 +136,12 @@ window.BattleState = {
 
     /**
      * Create the side for each player. 
-     * Creates 5 slots
-     * Put elements in each slot
-     * Create a Player
+     * Creates 5 slots and put elements in each slot.
+     *
      * @param {String} side - The side: player/enemy.
      */
     _createSide: function(side) {
-        var slot, i, x, y;
+        var slot, i, x, y, player;
         var slotSpace = 50; // space between slots
 
         // randomize enemy elements
@@ -145,6 +171,7 @@ window.BattleState = {
                     slot.y + slot.height / 2,
                     data.player.elements[i]
                 );
+                this._sprites[side] = element;
             }
             element.scale.setTo(0.10);
             // center sprite anchor point
@@ -164,17 +191,44 @@ window.BattleState = {
             }, this);
         }, this);
 
-        // create the player
-        var textStyle = {
-            font: "14px Arial",
-            fill: "black",
-            align: "center"
-        };
-
+        // create the character
+        var character;
         if (side === 'enemy') {
-            this.game.add.sprite(this.game.width - 127, 200, 'enemy');
+            character = this.game.add.sprite(this.game.width - 127, 200, 'enemy');
         } else if (side === 'player') {
-            this.game.add.sprite(0, 200, 'player');
+            character = this.game.add.sprite(0, 200, 'player');
+        }
+        this._createMonster(side);
+        character.scale.setTo(0.5)
+    },
+
+    /**
+     * Create the monster.
+     * 
+     * @param {String} side - The side player/enemy.
+     */
+    _createMonster: function(side) {
+        // element 1 is head
+        // element 2 is left arm
+        // element 3 is right arm
+        // element 4 is both legs
+        // element 5 is torso
+        var x, y,
+        monsterScale = 0.350;
+        
+        if (side === 'player') {
+            x = 300;
+            y = 300;
+        } else {
+            x = this.game.width - 300;
+            y = 300;
+        }
+        
+        var monster = this.game.add.sprite(x, y, 'monster');
+        monster.scale.setTo(monsterScale);
+
+        if (side === 'player') {
+            monster.scale.setTo(-1 * monsterScale, monsterScale);
         }
     },
 
@@ -250,16 +304,28 @@ window.BattleState = {
     _setScore: function() {
         var outcome = this._elementComparison();
         if (outcome === 'win') {
-            this._battle.score.player +=1;
+            this._battle.score.player += 1;
             this._score.player.text = this._battle.score.player;
-        } else if( outcome === 'lose') {
-            this._battle.score.enemy +=1;
+        } else if (outcome === 'lose') {
+            this._battle.score.enemy += 1;
             this._score.enemy.text = this._battle.score.enemy;
         }
 
-        // check battle end
+        // battle end
         if (!this._slots.enemy.length) { 
-            this.state.start('Outcome', true, false, outcome);
+            var gameOutcome;
+
+            if (this._battle.score.player === this._battle.score.enemy) {
+                gameOutcome = 'draw';
+
+            } else if (this._battle.score.player > this._battle.score.enemy) {
+                gameOutcome = 'win';
+            
+            } else {
+                gameOutcome = 'lose';
+            }
+            
+            this.state.start('Outcome', true, true, gameOutcome);
         }
     },
 
