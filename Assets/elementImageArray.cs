@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class elementImageArray : MonoBehaviour {
 
-	public Sprite[] tokens;
 	private Image img;
 	public int num;
 	private GameObject circle;
@@ -15,11 +14,11 @@ public class elementImageArray : MonoBehaviour {
 		circle = GameObject.Find ("Main Circle");
 		script = circle.GetComponent<elementArray> ();
 		img = GetComponent<Image> ();
-//		gameObject.SetActive = false;
+		//img.enabled = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		img.overrideSprite = tokens [script.elements[num]];
+		img.overrideSprite = script.tokens [script.elements[num]];
 	}
 }
