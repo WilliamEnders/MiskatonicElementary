@@ -12,18 +12,16 @@ var data = {
         }
     },
     player: {
-        elements: ['water', 'fire', 'water', 'water', 'water']
+        elements: ['fire', 'fire', 'earth', 'air', 'water']
     },
     enemy: {
         elements: ['fire', 'water', 'water', 'fire', 'water']
     }
 };
 
-/** Initialize game. */
 var Phaser = window.Phaser;
-var game = new Phaser.Game(800, 600, Phaser.AUTO);
 
-var GameState = {
+window.BattleState = {
     /** Preload game. */
     preload: function() {
         this.load.image('background', 'assets/background.png');
@@ -122,7 +120,7 @@ var GameState = {
         
         // randomize enemy elements
         if (side === 'enemy'){
-            randomize(data.enemy.elements);
+            window.randomize(data.enemy.elements);
         }
 
         for (i = 0; i < 5; i++) {
@@ -148,7 +146,6 @@ var GameState = {
                     data.player.elements[i]
                 );
             }
-            console.log(data.player.elements[i]);
             element.scale.setTo(0.10);
             // center sprite anchor point
             element.anchor.setTo(0.5);
@@ -218,7 +215,7 @@ var GameState = {
             setTimeout(function() {
                 self._setScore();
                 self._clearBoard();
-            }, 500);
+            }, 0); // todo: add timeout after debug
         });
         this._slots.mystery.pop();
         this._slots.enemy.pop();
@@ -233,8 +230,6 @@ var GameState = {
         var playerElement = this._battle.currentElement.player;
         var enemyElement = this._battle.currentElement.enemy;
     
-        console.log(playerElement.type);
-        console.log(enemyElement.type);
         // draw
         if (playerElement.type === enemyElement.type) {
             return 'draw';
@@ -255,13 +250,26 @@ var GameState = {
      */
     _setScore: function() {
         var outcome = this._elementComparison();
-        console.log(outcome);
         if(outcome === 'win') {
             this._battle.score.player +=1;
             this._score.player.text = this._battle.score.player;
         } else if( outcome === 'lose') {
             this._battle.score.enemy +=1;
             this._score.enemy.text = this._battle.score.enemy;
+        }
+
+        // check battle end
+        if (!this._slots.enemy.length) { 
+            if (this._battle.score.player > this._battle.score.enemy) {
+                //you win
+                console.log('win');
+            } else if (this._battle.score.player < this._battle.score.enemy) {
+                //lose
+                console.log('lose');
+            } else {
+                //tie
+                console.log('tie');
+            }
         }
     },
 
@@ -274,7 +282,3 @@ var GameState = {
         this._battle.isReady = true;
     }
 };
-
-/** Start game. */
-game.state.add('GameState', GameState);
-game.state.start('GameState');
