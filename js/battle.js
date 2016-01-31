@@ -15,7 +15,7 @@ var data = {
         elements: ['fire', 'fire', 'earth', 'air', 'water']
     },
     enemy: {
-        elements: ['fire', 'water', 'water', 'fire', 'water']
+        elements: ['fire', 'earth', 'earth', 'fire', 'water']
     }
 };
 
