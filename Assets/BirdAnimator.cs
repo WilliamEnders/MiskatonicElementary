@@ -10,6 +10,9 @@ public class BirdAnimator : MonoBehaviour {
 	private float startTime;
 	private float flightTime = 3;
 
+	public GameObject feather;
+	private bool featherSpawned = false;
+
 	// Use this for initialization
 	void Start () {
 		animator = GetComponentInChildren<Animator> ();
@@ -23,6 +26,11 @@ public class BirdAnimator : MonoBehaviour {
 			float newY = Mathf.Lerp (startPosition.y, endPosition.y, distCovered);
 			float newZ = Mathf.Lerp (startPosition.z, endPosition.z, distCovered);
 			transform.position = new Vector3 (newX, newY, newZ);
+
+			if (distCovered > 0.2 && !featherSpawned) {
+				featherSpawned = true;
+				Instantiate (feather, transform.position, Quaternion.identity);
+			}
 		}
 	}
 
