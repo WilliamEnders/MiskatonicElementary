@@ -17,7 +17,7 @@ public class PlayerInteractable : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.E) && interactBox.interactObject != null && interactBox.interactObject.name == name) {
+		if ((Input.GetButtonDown("Fire1")) && interactBox.interactObject != null && interactBox.interactObject.name == name) {
 			print ("player interact with: " + interactBox.interactObject.name);
 			if (interactBox.interactObject.name == "Bone") {
 				// do something w/ bone
