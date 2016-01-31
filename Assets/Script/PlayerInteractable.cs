@@ -20,13 +20,9 @@ public class PlayerInteractable : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if ((Input.GetButtonDown("Fire1")) && interactBox.interactObject != null && interactBox.interactObject.name == name && player.velocity == Vector3.zero) {
+		if (Input.GetButtonDown("Fire1") && interactBox.interactObject != null && interactBox.interactObject.name == name && player.velocity == Vector3.zero) {
 			print ("player interact with: " + interactBox.interactObject.name);
-			if (interactBox.interactObject.name == "Bone") {
-				// do something w/ bone
-			} else if (interactBox.interactObject.name == "Tree") {
-				// do something w/ tree
-			} else if (interactBox.interactObject.name == "Pond") {
+			if (interactBox.interactObject.name == "Pond") {
 				Instantiate (frog, transform.position, Quaternion.identity);
 				if (interactBox.interactObject.GetComponent<AudioSource>().isPlaying == false) {
 					interactBox.interactObject.GetComponent<AudioSource>().Play ();
