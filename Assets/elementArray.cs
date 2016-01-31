@@ -4,14 +4,7 @@ using System.Collections;
 public class elementArray : MonoBehaviour {
 
 	public int[] elements;
+	public Sprite[] tokens;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+	public int itemNum;
 }

@@ -16,7 +16,7 @@ public class frogScript : MonoBehaviour {
 	private float startTime;
 	private float journeyLength;
 	private SphereCollider radius;
-	private int jumpNum;
+	public int jumpNum;
 	private int findCount;
 
 	void Start(){
@@ -56,9 +56,12 @@ public class frogScript : MonoBehaviour {
 
 	void OnTriggerEnter(Collider hitInfo){
 		if(hitInfo.name == "player"){
+			if(jumpNum > 0){
 			randPlace = new Vector3 (Random.Range(pos.x - dist, pos.x + dist), 0, Random.Range(pos.z - dist, pos.z + dist));
 			print ("hi");
 			Jump ();
+			jumpNum--;
+			}
 		}
 	}
 
@@ -70,14 +73,16 @@ public class frogScript : MonoBehaviour {
 				break;
 			}
 		}
-		print (findCount);
 		findCount = 0;
 		origPlace = transform.position;
 		goPlace = randPlace;
 		startTime = Time.time;
 		journeyLength = Vector3.Distance(origPlace, goPlace);
-		jumpNum--;
-		radius.radius = jumpNum * 0.2f;
+		if (jumpNum > 0) {
+			radius.radius = jumpNum * 0.2f;
+		} else {
+			radius.radius = 1;
+		}
 
 	}
 
