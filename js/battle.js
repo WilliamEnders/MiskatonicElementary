@@ -68,7 +68,7 @@ window.BattleState = {
         var graphics = this.game.add.graphics(0, 0);
         graphics.beginFill(0xfff000, 1);
         graphics.drawCircle(415, 310, 215);
-        
+
         //create battlebox
         this.battlebox = this.game.add.sprite(
             this.game.world.centerX,
@@ -117,7 +117,7 @@ window.BattleState = {
     _createSide: function(side) {
         var slot, i, x, y;
         var slotSpace = 50; // space between slots
-        
+
         // randomize enemy elements
         if (side === 'enemy'){
             window.randomize(data.enemy.elements);
@@ -177,7 +177,7 @@ window.BattleState = {
             this.game.add.sprite(0, 200, 'player');
         }
     },
-   
+
     /**
      * Selects player inventory element.
      * 
@@ -193,7 +193,7 @@ window.BattleState = {
             true
         );
     },
-        
+
     /**
      * Selects enemy inventory element.
      */
@@ -220,7 +220,7 @@ window.BattleState = {
         this._slots.mystery.pop();
         this._slots.enemy.pop();
     },
- 
+
     /**
      * The comparison between player and enemy elements.
      * 
@@ -242,15 +242,14 @@ window.BattleState = {
         } else if (data.elements.strengths[playerElement.type].indexOf(enemyElement.type) === -1) {
             return 'lose';
         }
-        
     },
- 
+
     /**
      * Sets the the score for the battle.
      */
     _setScore: function() {
         var outcome = this._elementComparison();
-        if(outcome === 'win') {
+        if (outcome === 'win') {
             this._battle.score.player +=1;
             this._score.player.text = this._battle.score.player;
         } else if( outcome === 'lose') {
@@ -260,16 +259,7 @@ window.BattleState = {
 
         // check battle end
         if (!this._slots.enemy.length) { 
-            if (this._battle.score.player > this._battle.score.enemy) {
-                //you win
-                console.log('win');
-            } else if (this._battle.score.player < this._battle.score.enemy) {
-                //lose
-                console.log('lose');
-            } else {
-                //tie
-                console.log('tie');
-            }
+            this.state.start('Outcome', true, false, outcome);
         }
     },
 
