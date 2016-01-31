@@ -34,6 +34,7 @@ public class frogScript : MonoBehaviour {
 	}
 
 	void Update(){
+		Mathf.Clamp (jumpNum,0,10);
 		if(transform.position != goPlace){
 			if (transform.position.x > goPlace.x) {
 				sprite.flipX = false;
@@ -70,6 +71,7 @@ public class frogScript : MonoBehaviour {
 			randPlace = new Vector3 (Random.Range(pos.x - dist, pos.x + dist), 0, Random.Range(pos.z - dist, pos.z + dist));
 			findCount++;
 			if(findCount > 100){
+				jumpNum = 0;
 				break;
 			}
 		}

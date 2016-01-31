@@ -18,6 +18,7 @@ public class salaScript: MonoBehaviour {
 	private int findCount;
 
 	void Start(){
+		jumpNum = 10;
 		findCount = 0;
 		sprite = GetComponentInChildren<SpriteRenderer> ();
 		anim = GetComponentInChildren<Animator> ();
@@ -30,6 +31,7 @@ public class salaScript: MonoBehaviour {
 	}
 
 	void Update(){
+
 		if(transform.position != goPlace){
 			if (transform.position.x > goPlace.x) {
 				sprite.flipX = false;
@@ -66,6 +68,7 @@ public class salaScript: MonoBehaviour {
 			randPlace = new Vector3 (Random.Range(pos.x - dist, pos.x + dist), 0, Random.Range(pos.z - dist, pos.z + dist));
 			findCount++;
 			if(findCount > 100){
+				jumpNum = 0;
 				break;
 			}
 		}
