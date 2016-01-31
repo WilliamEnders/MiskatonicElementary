@@ -25,12 +25,16 @@ public class PlayerInteractBox : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other) {
-		print ("Can interact with object: " + other.gameObject.name);
-		interactObject = other.gameObject;
+		if (other.gameObject.GetComponent<PlayerInteractable> () != null) {
+			print ("Can interact with object: " + other.gameObject.name);
+			interactObject = other.gameObject;
+		}
 	}
 
 	void OnTriggerExit(Collider other) {
-		print ("Can no longer interact with object: " + other.gameObject.name);
-		interactObject = null;
+		if (other.gameObject.GetComponent<PlayerInteractable> () != null) {
+			print ("Can no longer interact with object: " + other.gameObject.name);
+			interactObject = null;
+		}
 	}
 }
