@@ -8,7 +8,8 @@ public class helpMenu : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		img = GameObject.Find ("Help");
+		img = GameObject.Find ("HelpSign");
+		img.SetActive (false);
 	}
 	
 	// Update is called once per frame
