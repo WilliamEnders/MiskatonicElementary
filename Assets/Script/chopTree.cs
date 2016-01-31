@@ -13,10 +13,4 @@ public class chopTree : MonoBehaviour {
 		playerScript = player.GetComponentInChildren<PlayerMove> ();
 
 	}
-
-	void OnTriggerStay () {
-		if(playerScript.chop){
-			chopNum--;
-		}
-	}
 }
