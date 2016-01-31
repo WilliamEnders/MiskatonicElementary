@@ -29,37 +29,39 @@ public class PlayerInteractable : MonoBehaviour {
 				}
 			} else if (interactBox.interactObject.tag == "Rock") {
 				Instantiate (salamander, transform.position, Quaternion.identity);
-				Destroy (interactBox.interactObject);
+				DestroyInteraction ();
 			} else if (interactBox.interactObject.tag == "Frog") {
 				if (interactBox.interactObject.GetComponent<frogScript> ().jumpNum <= 0) {
 					circle.AddElement (3);
-					Destroy (interactBox.interactObject);
+					DestroyInteraction ();
 				}
 			} else if (interactBox.interactObject.tag == "Salamander") {
 				if (interactBox.interactObject.GetComponent<salaScript> ().jumpNum <= 0) {
 					circle.AddElement (1);
-					Destroy (interactBox.interactObject);
+					DestroyInteraction ();
 				}
 			} else if (interactBox.interactObject.tag == "Feather") {
 				circle.AddElement (4);
-				Destroy (interactBox.interactObject);
-				interactBox.StopInteraction ();
+				DestroyInteraction ();
 			} else if (interactBox.interactObject.name == "SeveredHand") {
 				if (clicks > 0) {
 					clicks = clicks - 1;
 				} else {
 					circle.AddElement (2);
-					Destroy (interactBox.interactObject);
-					interactBox.StopInteraction ();
+					DestroyInteraction ();
 				}
 			} else if (interactBox.interactObject.name == "BirdTree") {
 				BirdAnimator birdAnim = interactBox.interactObject.GetComponentInChildren<BirdAnimator> ();
 				birdAnim.Fly ();
 			} else if (interactBox.interactObject.name == "Rose") {
 				circle.AddElement (0);
-				Destroy (interactBox.interactObject);
-				interactBox.StopInteraction ();
+				DestroyInteraction ();
 			}
 		}
+	}
+
+	void DestroyInteraction() {
+		Destroy (interactBox.interactObject);
+		interactBox.StopInteraction ();
 	}
 }
