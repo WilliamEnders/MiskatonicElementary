@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class PlayerInteractable : MonoBehaviour {
@@ -30,6 +30,9 @@ public class PlayerInteractable : MonoBehaviour {
 				if (clicks <= 0) {
 					print ("done");
 				}
+			} else if (interactBox.interactObject.name == "BirdTree") {
+				BirdAnimator birdAnim = interactBox.interactObject.GetComponentInChildren<BirdAnimator> ();
+				birdAnim.Fly ();
 			}
 		}
 	}
