@@ -34,10 +34,10 @@ public class PlayerMove : MonoBehaviour {
 		rb.velocity = movement * speed;
 
 		if(rb.velocity.x > 0){
-			ren.flipX = false;
+			ren.flipX = true;
 		}
 		if(rb.velocity.x < 0){
-			ren.flipX = true;
+			ren.flipX = false;
 		}
 
 		if (rb.velocity == Vector3.zero) {
