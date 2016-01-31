@@ -25,7 +25,8 @@ public class PlayerInteractBox : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other) {
-		if (other.gameObject.GetComponent<PlayerInteractable> () != null) {
+		PlayerInteractable pi = other.gameObject.GetComponent<PlayerInteractable> ();
+		if (pi != null && pi.active) {
 			print ("Can interact with object: " + other.gameObject.name);
 			GameObject.Find("Press E").GetComponent<SpriteRenderer> ().enabled = true;
 			interactObject = other.gameObject;
