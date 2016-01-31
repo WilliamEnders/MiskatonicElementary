@@ -18,5 +18,9 @@ public class buttonScript : MonoBehaviour {
 	}
 
 	public void Credits(){
+		Application.LoadLevel ("CreditsScreen");
+	}
+	public void Back(){
+		Application.LoadLevel ("MainMenu");
 	}
 }
