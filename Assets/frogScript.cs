@@ -41,6 +41,9 @@ public class frogScript : MonoBehaviour {
 				sprite.flipX = true;
 			}
 			anim.Play ("FrogJump");
+			if (GetComponent<AudioSource> ().isPlaying == false) {
+				GetComponent<AudioSource> ().Play ();
+			}
 		float distCovered = (Time.time - startTime) * speed;
 		float fracJourney = distCovered / journeyLength;
 			height = Mathf.Clamp( (-Mathf.Pow(((fracJourney * 2) - 1) , 2) + 1) , 0, 1);

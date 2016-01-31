@@ -21,6 +21,15 @@ public class PlayerMove : MonoBehaviour {
 		float moveHorizontal = Input.GetAxis ("Horizontal");
 		float moveVertical = Input.GetAxis ("Vertical");
 
+
+		if (rb.velocity != Vector3.zero) {
+			if (GetComponent<AudioSource> ().isPlaying == false) {
+				GetComponent<AudioSource> ().Play ();
+			}
+		} else if (rb.velocity == Vector3.zero) {
+			GetComponent<AudioSource> ().Stop ();
+		}
+
 		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
 		rb.velocity = movement * speed;
 
