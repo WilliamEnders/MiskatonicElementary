@@ -26,15 +26,17 @@ public class PlayerInteractable : MonoBehaviour {
 			} else if (interactBox.interactObject.name == "Pond") {
 				Instantiate (frog, transform.position, Quaternion.identity);
 			} else if (interactBox.interactObject.tag == "Frog"){
-				print ("FROG");
+				if(interactBox.interactObject.GetComponent<frogScript>().jumpNum == 0){
 				circle.elements [circle.itemNum] = 3;
 				circle.itemNum++;
 				Destroy (interactBox.interactObject);
+				}
 			} else if (interactBox.interactObject.tag == "Salamander"){
-				print ("FROG");
-				circle.elements [circle.itemNum] = 1;
-				circle.itemNum++;
-				Destroy (interactBox.interactObject);
+				if (interactBox.interactObject.GetComponent<salaScript> ().jumpNum == 0) {
+					circle.elements [circle.itemNum] = 1;
+					circle.itemNum++;
+					Destroy (interactBox.interactObject);
+				}
 			} else if (interactBox.interactObject.name == "SeveredHand") {
 				print ("hand");
 				clicks = clicks - 1;
