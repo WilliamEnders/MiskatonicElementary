@@ -20,8 +20,11 @@ public class PlayerInteractable : MonoBehaviour {
 				// do something w/ bone
 			} else if (interactBox.interactObject.name == "Tree") {
 				// do something w/ tree
-			}else if(interactBox.interactObject.name == "Pond"){
-			Instantiate (frog, transform.position, Quaternion.identity);
+			} else if (interactBox.interactObject.name == "Pond") {
+				Instantiate (frog, transform.position, Quaternion.identity);
+			} else if (interactBox.interactObject.name == "BirdTree") {
+				BirdAnimator birdAnim = interactBox.interactObject.GetComponentInChildren<BirdAnimator> ();
+				birdAnim.Fly ();
 			}
 		}
 	}
