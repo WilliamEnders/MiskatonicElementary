@@ -29,42 +29,39 @@ public class PlayerInteractable : MonoBehaviour {
 				}
 			} else if (interactBox.interactObject.tag == "Rock") {
 				Instantiate (salamander, transform.position, Quaternion.identity);
-				Destroy (interactBox.interactObject);
+				DestroyInteraction ();
 			} else if (interactBox.interactObject.tag == "Frog") {
 				if (interactBox.interactObject.GetComponent<frogScript> ().jumpNum <= 0) {
-					circle.elements [circle.itemNum] = 3;
-					circle.itemNum++;
-					Destroy (interactBox.interactObject);
+					circle.AddElement (3);
+					DestroyInteraction ();
 				}
 			} else if (interactBox.interactObject.tag == "Salamander") {
 				if (interactBox.interactObject.GetComponent<salaScript> ().jumpNum <= 0) {
-					circle.elements [circle.itemNum] = 1;
-					circle.itemNum++;
-					Destroy (interactBox.interactObject);
+					circle.AddElement (1);
+					DestroyInteraction ();
 				}
 			} else if (interactBox.interactObject.tag == "Feather") {
-				circle.elements [circle.itemNum] = 4;
-				circle.itemNum++;
-				Destroy (interactBox.interactObject);
-				interactBox.StopInteraction ();
+				circle.AddElement (4);
+				DestroyInteraction ();
 			} else if (interactBox.interactObject.name == "SeveredHand") {
 				if (clicks > 0) {
 					clicks = clicks - 1;
 				} else {
-					circle.elements [circle.itemNum] = 2;
-					circle.itemNum++;
-					Destroy (interactBox.interactObject);
-					interactBox.StopInteraction ();
+					circle.AddElement (2);
+					DestroyInteraction ();
 				}
 			} else if (interactBox.interactObject.name == "BirdTree") {
 				BirdAnimator birdAnim = interactBox.interactObject.GetComponentInChildren<BirdAnimator> ();
 				birdAnim.Fly ();
 			} else if (interactBox.interactObject.name == "Rose") {
-				circle.elements [circle.itemNum] = 0;
-				circle.itemNum++;
-				Destroy (interactBox.interactObject);
-				interactBox.StopInteraction ();
+				circle.AddElement (0);
+				DestroyInteraction ();
 			}
 		}
+	}
+
+	void DestroyInteraction() {
+		Destroy (interactBox.interactObject);
+		interactBox.StopInteraction ();
 	}
 }
