@@ -37,14 +37,17 @@ public class PlayerInteractable : MonoBehaviour {
 					circle.itemNum++;
 					Destroy (interactBox.interactObject);
 				}
-			} else if (interactBox.interactObject.name == "SeveredHand") {
-				print ("hand");
-				clicks = clicks - 1;
-				print (clicks);
-				if (clicks <= 0) {
-					print ("done");
+			} else if (interactBox.interactObject.tag == "Feather"){
+				circle.elements [circle.itemNum] = 4;
+				circle.itemNum++;
+				Destroy (interactBox.interactObject);
+			}  else if (interactBox.interactObject.name == "SeveredHand") {
+				if (clicks > 0) {
+					clicks = clicks - 1;
+				} else {
 					circle.elements [circle.itemNum] = 2;
 					circle.itemNum++;
+					Destroy (interactBox.interactObject);
 				}
 			} else if (interactBox.interactObject.name == "BirdTree") {
 				BirdAnimator birdAnim = interactBox.interactObject.GetComponentInChildren<BirdAnimator> ();
