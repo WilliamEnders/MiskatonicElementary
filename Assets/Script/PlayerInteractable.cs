@@ -6,6 +6,7 @@ public class PlayerInteractable : MonoBehaviour {
 	private PlayerInteractBox interactBox;
 
 	public GameObject frog;
+	public float clicks = 6;
 
 	// Use this for initialization
 	void Start () {
@@ -22,6 +23,13 @@ public class PlayerInteractable : MonoBehaviour {
 				// do something w/ tree
 			}else if(interactBox.interactObject.name == "Pond"){
 			Instantiate (frog, transform.position, Quaternion.identity);
+			} else if (interactBox.interactObject.name == "SeveredHand") {
+				print ("hand");
+				clicks = clicks - 1;
+				print (clicks);
+				if (clicks <= 0) {
+					print ("done");
+				}
 			}
 		}
 	}
