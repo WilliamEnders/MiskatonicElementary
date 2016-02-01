@@ -41,45 +41,9 @@ if (qs.elements) {
 var Phaser = window.Phaser;
 
 window.BattleState = {
-    /** Preload game. */
-    preload: function() {
-        this.load.image('background', 'assets/background.png');
-        this.load.image('battle_box', 'assets/GUI-circle.png');
-
-        // there are 5 slots for each character
-        this.load.image('slot', 'assets/slot.png');
-
-        // todo: update after done with debugging
-        //this.load.image('mystery_slot', 'assets/mystery_slot.png');
-        this.load.image('mystery_slot', 'assets/clear.png');
-
-        this.load.image('player', 'assets/mainguy.png');
-        this.load.image('enemy', 'assets/chad.png');
-
-        this._tokens = {
-            earth: this.load.image('earth', 'assets/tokens/token_earth.png'),
-            air: this.load.image('air', 'assets/tokens/token_air.png'),
-            organic: this.load.image('organic', 'assets/tokens/token_organic.png'),
-            water: this.load.image('water', 'assets/tokens/token_water.png'),
-            fire: this.load.image('fire', 'assets/tokens/token_fire.png')
-        };
-
-        // preload outcome assets here to prevent blue flash
-        // todo: refactor and do this correctly
-        this.load.image('background', 'assets/background.png');
-        this.load.image('btn_tryagain', 'assets/btn_tryagain.png');
-        this.load.image('btn_playagain', 'assets/btn_playagain.png');
-        this.load.image('victory_text', 'assets/txt_victory.png');
-        
-        // load monster placeholder
-        this.load.image('monster', 'assets/WoolColossus.png');
-        
-        // music
-        this.load.audio('music', ['assets/audio/pumped_up.mp3']);
-    },
-
     /** Create game. */
     create: function() {
+        console.log(this);
         // todo: remove after done with debugging
         window.debugGame = this;
 
@@ -185,7 +149,7 @@ window.BattleState = {
                 x = i * slotSpace;
                 y = 30;
                 slot = this.game.add.sprite(x, y, 'slot');
-                element = this.game.add.sprite(
+                element = this.game.add.button(
                     slot.x + slot.width / 2,
                     slot.y + slot.height / 2,
                     data.player.elements[i]
@@ -198,9 +162,10 @@ window.BattleState = {
             element.type = data[side].elements[i];
             this._slots[side].push(element);
         }
-
+        
         // bind events
         this._slots.player.forEach(function(element, index){
+            console.log(element)
             element.inputEnabled = true;
             element.events.onInputDown.add(function(){
                 if (this._battle.isReady) {
@@ -344,7 +309,7 @@ window.BattleState = {
                 gameOutcome = 'lose';
             }
             
-            this.state.start('Outcome', true, true, gameOutcome);
+            this.game.state.start('Outcome', false, false, gameOutcome);
         }
     },
 
@@ -355,5 +320,33 @@ window.BattleState = {
         this._battle.currentElement.player.kill();
         this._battle.currentElement.enemy.kill();
         this._battle.isReady = true;
+    },
+    /**
+     * Reset data.
+     */
+    shutdown: function () {
+        this._sprites = {
+            player: null,
+            enemy: null
+        };
+    
+        /** The player and enemy slots. */
+        this._slots = {
+            player: [],
+            enemy: [],
+            mystery: []
+        };
+    
+        this._battle= {
+            isReady: true,
+            score: {
+                player: 0,
+                enemy: 0
+            },
+            currentElement: {
+                player: null,
+                enemy: null
+            }
+        };
     }
 };

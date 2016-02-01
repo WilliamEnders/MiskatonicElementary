@@ -13,14 +13,6 @@ window.OutcomeState = {
         this._outcome = outcome;
     },
 
-    /** Preload state. */
-    preload: function() {
-        this.load.image('background', 'assets/background.png');
-        this.load.image('btn_tryagain', 'assets/btn_tryagain.png');
-        this.load.image('btn_playagain', 'assets/btn_playagain.png');
-        this.load.image('victory_text', 'assets/txt_victory.png');
-    },
-
     /** Create state. */
     create: function() {
         var button;
@@ -30,10 +22,12 @@ window.OutcomeState = {
         this.game.add.sprite(0, 0, 'background');
 
         if (this._outcome === 'draw' || this._outcome === 'lose') {
-            button = this.game.add.sprite(
+            button = this.game.add.button(
                 this.game.world.centerX,
                 this.game.world.centerY,
-                'btn_tryagain'
+                'btn_tryagain',
+                this._clickButton,
+                0, 1, 2
             );
         } else {
             // display the code to pass back to unity
@@ -42,24 +36,23 @@ window.OutcomeState = {
                     0,
                     'victory_text'
                 );
-            button = this.game.add.sprite(
+            button = this.game.add.button(
                 this.game.world.centerX,
                 this.game.world.centerY,
-                'btn_playagain'
+                'btn_playagain',
+                this._clickButton,
+                0, 1, 2
             );
         }
-
         button.scale.setTo(0.1);
         button.anchor.setTo(0.5);
 
-        button.inputEnabled = true;
-        button.events.onInputDown.add(this._clickButton, this);
     },
 
     /**
      * Clicks button to restart game.
      */
     _clickButton: function() {
-        this.state.start('Battle', true, true);
+        this.game.state.start('Battle');
     }
 };

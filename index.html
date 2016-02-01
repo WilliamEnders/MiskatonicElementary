@@ -16,6 +16,7 @@
         <!-- Phaser -->
         <script src="//cdnjs.cloudflare.com/ajax/libs/phaser/2.4.4/phaser.js"></script>
         <!-- Game -->
+        <script src="js/preload.js"></script>
         <script src="js/battle.js"></script>
         <script src="js/outcome.js"></script>
         <script>
@@ -24,9 +25,10 @@
             var game = new Phaser.Game(800, 600, Phaser.AUTO);
 
             // start game
+            game.state.add('Preload', window.PreloadState);
             game.state.add('Battle', window.BattleState);
             game.state.add('Outcome', window.OutcomeState);
-            game.state.start('Battle');
+            game.state.start('Preload');
         </script>
     </body>
 </html>
