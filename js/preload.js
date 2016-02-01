@@ -45,6 +45,6 @@ window.PreloadState = {
 	},
 
   	create: function(){
-		this.game.state.start('Outcome', true, false, 'win');
+		this.game.state.start('Battle');
 	}
 };
