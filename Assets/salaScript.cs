@@ -31,7 +31,6 @@ public class salaScript: MonoBehaviour {
 	}
 
 	void Update(){
-
 		if(transform.position != goPlace){
 			if (transform.position.x > goPlace.x) {
 				sprite.flipX = false;
