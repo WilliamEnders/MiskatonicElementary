@@ -9,7 +9,7 @@ public class helpMenu : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		img = GameObject.Find ("HelpSign");
-		img.SetActive (false);
+		img.SetActive (true);
 	}
 	
 	// Update is called once per frame
@@ -17,11 +17,15 @@ public class helpMenu : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.Q)){
 			if (!img.activeSelf) {
 				img.SetActive (true);
-				Time.timeScale = 0;
 			} else {
 				img.SetActive (false);
-				Time.timeScale = 1;
 			}
+		}
+		if(img.activeSelf){
+			Time.timeScale = 0;
+		}
+		if(!img.activeSelf){
+			Time.timeScale = 1;
 		}
 	}
 }
