@@ -27,6 +27,6 @@ public class elementArray : MonoBehaviour {
 	}
 
 	public bool IsCompleted() {
-		return itemNum >= 4;
+		return itemNum > 4;
 	}
 }
