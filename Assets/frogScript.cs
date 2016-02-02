@@ -58,7 +58,7 @@ public class frogScript : MonoBehaviour {
 		if(hitInfo.name == "player"){
 			if(jumpNum > 0){
 			randPlace = new Vector3 (Random.Range(pos.x - dist, pos.x + dist), 0, Random.Range(pos.z - dist, pos.z + dist));
-			print ("hi");
+			print ("hi: " + jumpNum);
 			Jump ();
 			jumpNum--;
 			}
@@ -69,12 +69,14 @@ public class frogScript : MonoBehaviour {
 		while (!canJump (randPlace)) {
 			randPlace = new Vector3 (Random.Range(pos.x - dist, pos.x + dist), 0, Random.Range(pos.z - dist, pos.z + dist));
 			findCount++;
-			if(findCount > 100){
+			if(findCount > 200){
+				print ("setting to 0");
 				jumpNum = 0;
 				break;
 			}
 		}
 		findCount = 0;
+		pos = randPlace;
 		origPlace = transform.position;
 		goPlace = randPlace;
 		startTime = Time.time;
@@ -87,9 +89,17 @@ public class frogScript : MonoBehaviour {
 
 	}
 
-	static bool canJump(Vector3 pos){
+	bool canJump(Vector3 pos) {
 		Collider[] hitColliders = Physics.OverlapSphere(pos, 2);
-		if (hitColliders.Length >= 1) {
+		bool isPond = false;
+		foreach (Collider collider in hitColliders) {
+			if (collider.gameObject.name == "Pond") {
+				isPond = true;
+			}
+		}
+		if (isPond) {
+			return true;
+		} else if (hitColliders.Length >= 1) {
 			return false;
 		} else {
 			return true;

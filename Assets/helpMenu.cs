@@ -14,18 +14,16 @@ public class helpMenu : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown(KeyCode.Q)){
-			if (!img.activeSelf) {
-				img.SetActive (true);
-			} else {
-				img.SetActive (false);
-			}
+		if (Input.GetKeyDown (KeyCode.Q) && !img.activeSelf) {
+			img.SetActive (true);
+		} else if (Input.anyKeyDown && img.activeSelf) {
+			img.SetActive (false);
 		}
-		if(img.activeSelf){
-			Time.timeScale = 0;
-		}
-		if(!img.activeSelf){
-			Time.timeScale = 1;
-		}
+//		if(img.activeSelf){
+//			Time.timeScale = 0;
+//		}
+//		if(!img.activeSelf){
+//			Time.timeScale = 1;
+//		}
 	}
 }

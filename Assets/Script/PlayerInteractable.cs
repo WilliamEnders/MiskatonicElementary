@@ -7,7 +7,6 @@ public class PlayerInteractable : MonoBehaviour {
 
 	public GameObject frog;
 	public GameObject salamander;
-	public float clicks = 6;
 	private elementArray circle;
 	private Rigidbody player;
 	public bool active = true;
@@ -45,12 +44,8 @@ public class PlayerInteractable : MonoBehaviour {
 				circle.AddElement (4);
 				DestroyInteraction ();
 			} else if (interactBox.interactObject.name == "SeveredHand") {
-				if (clicks > 0) {
-					clicks = clicks - 1;
-				} else {
-					circle.AddElement (2);
-					DestroyInteraction ();
-				}
+				circle.AddElement (2);
+				DestroyInteraction ();
 			} else if (interactBox.interactObject.name.Contains("BirdTree")) {
 				active = false;
 				BirdAnimator birdAnim = interactBox.interactObject.GetComponentInChildren<BirdAnimator> ();
